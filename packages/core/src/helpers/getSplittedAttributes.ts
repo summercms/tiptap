@@ -16,6 +16,17 @@ export default function getSplittedAttributes(
         return false
       }
 
-      return extensionAttribute.attribute.keepOnSplit
+      return extensionAttribute.attribute.keepOnSplit || extensionAttribute.isDynamic
+    })
+    .map(([name, value]) => {
+      const extensionAttribute = extensionAttributes.find(item => {
+        return item.type === typeName && item.name === name
+      })
+
+      if (!extensionAttribute || !extensionAttribute.isDynamic) {
+        return [name, value]
+      }
+
+      return [name, extensionAttribute?.attribute.default()]
     }))
 }

@@ -57,7 +57,11 @@ export default function getSchemaByResolvedExtensions(extensions: Extensions): S
       defining: callOrReturn(getExtensionField<NodeConfig['defining']>(extension, 'defining', context)),
       isolating: callOrReturn(getExtensionField<NodeConfig['isolating']>(extension, 'isolating', context)),
       attrs: Object.fromEntries(extensionAttributes.map(extensionAttribute => {
-        return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
+        return [extensionAttribute.name, {
+          default: extensionAttribute.isDynamic
+            ? null
+            : extensionAttribute?.attribute?.default,
+        }]
       })),
     })
 
@@ -107,7 +111,11 @@ export default function getSchemaByResolvedExtensions(extensions: Extensions): S
       group: callOrReturn(getExtensionField<NodeConfig['group']>(extension, 'group', context)),
       spanning: callOrReturn(getExtensionField<NodeConfig['spanning']>(extension, 'spanning', context)),
       attrs: Object.fromEntries(extensionAttributes.map(extensionAttribute => {
-        return [extensionAttribute.name, { default: extensionAttribute?.attribute?.default }]
+        return [extensionAttribute.name, {
+          default: extensionAttribute.isDynamic
+            ? null
+            : extensionAttribute?.attribute?.default,
+        }]
       })),
     })
 

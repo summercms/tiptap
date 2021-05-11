@@ -104,6 +104,7 @@ export type Attributes = {
 export type ExtensionAttribute = {
   type: string,
   name: string,
+  isDynamic: boolean,
   attribute: Required<Attribute>,
 }
 

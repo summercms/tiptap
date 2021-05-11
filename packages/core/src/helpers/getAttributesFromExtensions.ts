@@ -50,13 +50,16 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
         Object
           .entries(globalAttribute.attributes)
           .forEach(([name, attribute]) => {
+            const mergedAttribute = {
+              ...defaultAttribute,
+              ...attribute,
+            }
+
             extensionAttributes.push({
               type,
               name,
-              attribute: {
-                ...defaultAttribute,
-                ...attribute,
-              },
+              isDynamic: typeof mergedAttribute.default === 'function',
+              attribute: mergedAttribute,
             })
           })
       })
@@ -85,13 +88,16 @@ export default function getAttributesFromExtensions(extensions: Extensions): Ext
     Object
       .entries(attributes)
       .forEach(([name, attribute]) => {
+        const mergedAttribute = {
+          ...defaultAttribute,
+          ...attribute,
+        }
+
         extensionAttributes.push({
           type: extension.name,
           name,
-          attribute: {
-            ...defaultAttribute,
-            ...attribute,
-          },
+          isDynamic: typeof mergedAttribute.default === 'function',
+          attribute: mergedAttribute,
         })
       })
   })
